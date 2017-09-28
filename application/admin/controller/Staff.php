@@ -7,4 +7,7 @@ class Staff extends BaseAdmin{
     public function index(){
         return view();
     }
+    public function add(){
+    	return $this->fetch();
+    }
 }

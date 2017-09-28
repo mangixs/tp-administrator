@@ -23,9 +23,10 @@
 		    margin-top: 0px;
 		    position: absolute;
 		    bottom: 40px;
-		    top: 40px;
+		    top: 43px;
 		    left: 0;
 		    right: 0;
+		    height:auto !important;
 		}
 		#footer{
 			position: fixed;
@@ -131,35 +132,56 @@
 <script src="__STATIC__/media/js/respond.min.js"></script>  
 <![endif]-->       
 <script>
-	jQuery(document).ready(function() {    
-		jQuery('.page-sidebar').on('click', 'li > a', function (e) {
-            if ($(this).next().hasClass('sub-menu') == false) {
-                if ($('.btn-navbar').hasClass('collapsed') == false) {
-                    $('.btn-navbar').click();
-                }
-                return;
+jQuery(document).ready(function() {    
+	jQuery('.page-sidebar').on('click', 'li > a', function (e) {
+        if ($(this).next().hasClass('sub-menu') == false) {
+            if ($('.btn-navbar').hasClass('collapsed') == false) {
+                $('.btn-navbar').click();
             }
-            var parent = $(this).parent().parent();
-            parent.children('li.open').children('a').children('.arrow').removeClass('open');
-            parent.children('li.open').children('.sub-menu').slideUp(200);
-            parent.children('li.open').removeClass('open');
-            var sub = jQuery(this).next();
-            if (sub.is(":visible")) {
-                jQuery('.arrow', jQuery(this)).removeClass("open");
-                jQuery(this).parent().removeClass("open");
-                sub.slideUp(200);
-                $(this).parent().removeClass('active');
-            } else {
-            	$(this).parent().addClass('active');
-                jQuery('.arrow', jQuery(this)).addClass("open");
-                jQuery(this).parent().addClass("open");
-                sub.slideDown(200);
-            }
-            e.preventDefault();
-        });
-        
-           
-	});
+            return;
+        }
+        var parent = $(this).parent().parent();
+        parent.children('li.open').children('a').children('.arrow').removeClass('open');
+        parent.children('li.open').children('.sub-menu').slideUp(200);
+        parent.children('li.open').removeClass('open');
+        var sub = jQuery(this).next();
+        if (sub.is(":visible")) {
+            jQuery('.arrow', jQuery(this)).removeClass("open");
+            jQuery(this).parent().removeClass("open");
+            sub.slideUp(200);
+            $(this).parent().removeClass('active');
+        } else {
+        	$(this).parent().addClass('active');
+            jQuery('.arrow', jQuery(this)).addClass("open");
+            jQuery(this).parent().addClass("open");
+            sub.slideDown(200);
+        }
+        e.preventDefault();
+    });
+});
+class admin{
+	constructor(){
+
+	}
+	add(url,title,height='fixed'){
+		if ( height !== 'fixed' ) {
+			height='auto';
+		}else{
+			height=$(window).height()*0.95+'px';
+		}
+		layer.open({
+			type:2,
+			title:title,
+			content:url,
+			area: ['960px',height],
+			shadeClose:true,
+		})
+	}
+	save(){
+		console.log('save');
+	}
+}
+var adminObj = new admin();
 </script>
 </body>
 </html>

@@ -1,16 +1,80 @@
 <link rel="stylesheet" type="text/css" href="__STATIC__/bootstrap/css/bootstrap.min.css">
 <style type="text/css">
 .head{
-	height:60px;
+	height:50px;
+	box-sizing:border-box;
+	border-bottom:1px dashed #e1e1e1;
 }	
 .btn-right{
 	float:right;
-	margin-top:25px;
+	margin-top:5px;
 	margin-right:20px;
 }
+.search-box{
+	height:50px;
+}
+.title{
+	line-height:50px;
+	margin-left:20px;
+	font-size:1.15em;
+	font-weight:600;
+}
+.table{
+	text-align:center;
+}
+th{
+	text-align:center;
+	font-weight:normal;
+}
+.form-inline{
+	margin-top:8px;
+	margin-left:15px;
+}
+.table>thead>tr>th,.table>tbody>tr>td{
+	padding:5px;
+}
 </style>
-<div class="head container">
+<div class="head container-fluid">
 	<div class="row">
-		<button type="button"  class="btn btn-success btn-right" >添加</button>
+		<span class="title">管理员管理</span>
+		<button type="button"  class="btn btn-success btn-right" onclick="parent.adminObj.add('/staff/add','添加管理员')" >添加</button>
 	</div>	
+</div>
+<div class="content container-fluid">
+	<div class="search-box">
+		<div class="row">
+			<form class="form-inline">
+			  	<div class="form-group">
+			    	<label for="exampleInputName2">用户名</label>
+			    	<input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
+			 	</div>
+			  	<button type="submit" class="btn btn-primary">search</button>
+			</form>
+		</div>
+	</div>
+	<div class="data-show">
+		<table class="table table-bordered">
+		   <thead>
+		      	<tr class="active">
+		         	<th>登录名</th>
+		         	<th>员工编号</th>
+		        	<th>姓名</th>
+		        	<th>性别</th>
+		        	<th>操作</th>
+		      	</tr>
+		   </thead>
+		   <tbody>
+		      	<tr>
+			        <td>Tanmay</td>
+			        <td>Bangalore</td>
+			        <td>560001</td>
+			        <td>Bangalore</td>
+			        <td>
+			        	<a href="">编辑</a>
+			        	<a href="">删除</a>
+			        </td>
+		      	</tr>
+		   </tbody></table>
+	</div>
+	<div class="page"></div>	
 </div>
