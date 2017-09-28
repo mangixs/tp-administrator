@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+	<meta charset="utf-8" />
+	<title>后台主页</title>
+	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+	<meta content="" name="description" />
+	<meta content="" name="author" />
+	<link href="__STATIC__/media/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+	<link href="__STATIC__/media/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css"/>
+	<link href="__STATIC__/media/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+	<link href="__STATIC__/media/css/style-metro.css" rel="stylesheet" type="text/css"/>
+	<link href="__STATIC__/media/css/style.css" rel="stylesheet" type="text/css"/>
+	<link href="__STATIC__/media/css/style-responsive.css" rel="stylesheet" type="text/css"/>
+	<link href="__STATIC__/media/css/default.css" rel="stylesheet" type="text/css" id="style_color"/>
+	<link rel="shortcut icon" href="__STATIC__/media/image/favicon.ico" />
+	<style type="text/css">
+		#detail-content{
+			margin-left: 225px;
+		    margin-top: 0px;
+		    position: absolute;
+		    bottom: 40px;
+		    top: 40px;
+		    left: 0;
+		    right: 0;
+		}
+		#footer{
+			position: fixed;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			text-align: center;
+		}
+		#list{
+			width:100%;
+			height:100%;
+			border:none;
+		}
+	</style>
+</head>
+<body class="page-header-fixed">
+<div class="header navbar navbar-inverse navbar-fixed-top">
+	<div class="navbar-inner">
+		<div class="container-fluid">
+			<a class="brand" href="index.html">
+				<img src="__STATIC__/media/image/logo.png" alt="logo"/>
+			</a>
+			<a href="javascript:;" class="btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
+				<img src="__STATIC__/media/image/menu-toggler.png" alt="" />
+			</a>          
+			<ul class="nav pull-right">
+				<li class="dropdown" id="header_notification_bar">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					<i class="icon-warning-sign"></i>
+					<span class="badge">6</span>
+					</a>
+					<ul class="dropdown-menu extended notification">
+						<li>
+							<p>You have 14 new notifications</p>
+						</li>
+						<li>
+							<a href="#">
+							<span class="label label-success"><i class="icon-plus"></i></span>
+							New user registered. 
+							<span class="time">Just now</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li class="dropdown user">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					<img alt="" src="__STATIC__/media/image/avatar1_small.jpg" />
+					<span class="username">{$user['login_name']}</span>
+					<i class="icon-angle-down"></i>
+					</a>
+					<ul class="dropdown-menu">
+						<li><a href=""><i class="icon-user"></i> My Profile</a></li>
+						<li><a href="/index/loginout"><i class="icon-key"></i> Log Out</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<div class="page-container">
+	<div class="page-sidebar nav-collapse collapse">
+		<ul class="page-sidebar-menu">
+			<li class="">
+				<a href="">
+					<i class="icon-home"></i> 
+					<span class="title">前段管理</span>
+					<span class="selected"></span>						
+				</a>
+				<ul class="sub-menu">
+					<li><a href="" target="list" >文章管理</a></li>
+				</ul>
+			</li>
+
+			<li class="">
+				<a href="javascript:;">
+				<i class="icon-cogs"></i> 
+				<span class="title">后台管理</span>
+				<span class="arrow "></span>
+				</a>
+				<ul class="sub-menu">
+					<li >
+						<a href="/staff" target="list" >管理员管理</a>							
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	<div class="page-content" id="detail-content">
+		<iframe src="/index/welcome" frameborder="0" name="list" id="list"></iframe>
+	</div>
+</div>
+<div class="footer" id="footer">
+	<div class="footer-inner">
+		2013 &copy; Metronic by keenthemes.Collect from
+	</div>
+</div>
+<script src="__STATIC__/media/js/jquery-1.10.1.min.js" type="text/javascript"></script>
+<script src="__STATIC__/media/js/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
+<script src="__STATIC__/media/js/jquery-ui-1.10.1.custom.min.js" type="text/javascript"></script>      
+<script src="__STATIC__/media/js/bootstrap.min.js" type="text/javascript"></script>
+<!--[if lt IE 9]>
+<script src="__STATIC__/media/js/respond.min.js"></script>  
+<![endif]-->       
+<script>
+	jQuery(document).ready(function() {    
+		jQuery('.page-sidebar').on('click', 'li > a', function (e) {
+            if ($(this).next().hasClass('sub-menu') == false) {
+                if ($('.btn-navbar').hasClass('collapsed') == false) {
+                    $('.btn-navbar').click();
+                }
+                return;
+            }
+            var parent = $(this).parent().parent();
+            parent.children('li.open').children('a').children('.arrow').removeClass('open');
+            parent.children('li.open').children('.sub-menu').slideUp(200);
+            parent.children('li.open').removeClass('open');
+            var sub = jQuery(this).next();
+            if (sub.is(":visible")) {
+                jQuery('.arrow', jQuery(this)).removeClass("open");
+                jQuery(this).parent().removeClass("open");
+                sub.slideUp(200);
+                $(this).parent().removeClass('active');
+            } else {
+            	$(this).parent().addClass('active');
+                jQuery('.arrow', jQuery(this)).addClass("open");
+                jQuery(this).parent().addClass("open");
+                sub.slideDown(200);
+            }
+            e.preventDefault();
+        });   
+	});
+</script>
+</body>
+</html>
