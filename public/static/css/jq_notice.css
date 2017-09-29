@@ -4,7 +4,7 @@
 	left:0px;
 	bottom:200px;
 	text-align:center;
-	z-index:970;
+	z-index:9700000000;
  	animation:jq_notice_ani 0.3s;
 	-webkit-animation:jq_notice_ani 0.3s; 
 }
