@@ -39,9 +39,24 @@ class Staff extends BaseAdmin{
 		$data['header_img']=input('post.header_img');
 		$formObj=new FormCheck($this->rule);
 		$checkResult=$formObj->checkFrom($data,'staff_form');
-		if ( $checkResult['result'] !=='SUCCESS' ) {
+		if ( $checkResult['result'] !=='CHECK_PASS' ) {
 			return json($checkResult);
 		}
 		$action=input('post.action');
+		switch ($action) {
+			case 'add':
+				$data['pwd']=md5(123456);
+				db('staff')->insert($data);
+				$id=db('staff')->getLastInsID();
+				break;
+			case 'edit':
+				$id=input('post.id');
+				db('staff')->where('id',$id)->update($data);
+				break;
+			default:
+				# code...
+				break;
+		}
+		return json(['result'=>'SUCCESS','msg'=>'操作成功','id'=>$id]);
 	}
 }
