@@ -11,7 +11,7 @@ class Code{
     //验证码
     public $code;
     //验证码的随机种子
-    public $codeStr = "123456789abcdefghijklmnpqrstuvwsyz";
+    public $codeStr = "123456789abcdefghijklmnpqrstuvwsyzABCDEFGHIJKLMNPQRSTUVWSYZ";
     //验证码长度
     public $codeLen = 4;
     //验证码字体

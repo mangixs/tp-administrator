@@ -21,8 +21,8 @@
 			margin-left: 225px;
 		    margin-top: 0px;
 		    position: absolute;
-		    bottom: 40px;
-		    top: 43px;
+		    bottom: 30px;
+		    top: 42px;
 		    left: 0;
 		    right: 0;
 		    height:auto !important;
@@ -44,6 +44,10 @@
 			-moz-border-radius:5px;
 			-ms-border-radius:5px;
 			-webkit-border-radius:5px;
+		}
+		.head_img{
+			width:32px;
+			height:32px;
 		}
 	</style>
 </head>
@@ -76,9 +80,10 @@
 						</li>
 					</ul>
 				</li>
+
 				<li class="dropdown user">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-					<img alt="" src="__STATIC__/media/image/avatar1_small.jpg" />
+					<img class="head_img" src="{if !empty($user['header_img'])}{$user['header_img']}{/if}" />
 					<span class="username">{$user['login_name']}</span>
 					<i class="icon-angle-down"></i>
 					</a>
@@ -95,21 +100,20 @@
 	<div class="page-sidebar nav-collapse collapse">
 		<ul class="page-sidebar-menu">
 			<li class="">
-				<a href="">
+				<a href="javascript:;" class="level">
 					<i class="icon-home"></i> 
 					<span class="title">前段管理</span>
-					<span class="selected"></span>						
+					<span class="arrow "></span>						
 				</a>
 				<ul class="sub-menu">
 					<li><a href="javascript:;" target="list" >文章管理</a></li>
 				</ul>
 			</li>
-
 			<li class="">
-				<a href="javascript:;">
-				<i class="icon-cogs"></i> 
-				<span class="title">后台管理</span>
-				<span class="arrow "></span>
+				<a href="javascript:;" class="level">
+					<i class="icon-cogs"></i> 
+					<span class="title">后台管理</span>
+					<span class="arrow "></span>
 				</a>
 				<ul class="sub-menu">
 					<li >
@@ -136,32 +140,28 @@
 <script src="__STATIC__/media/js/respond.min.js"></script>  
 <![endif]-->       
 <script>
-jQuery(document).ready(function() {    
-	jQuery('.page-sidebar').on('click', 'li > a', function (e) {
-        if ($(this).next().hasClass('sub-menu') == false) {
-            if ($('.btn-navbar').hasClass('collapsed') == false) {
-                $('.btn-navbar').click();
-            }
-            return;
+jQuery('.page-sidebar').on('click', 'li > a', function (e) {
+    if ($(this).next().hasClass('sub-menu') == false) {
+        if ($('.btn-navbar').hasClass('collapsed') == false) {
+            $('.btn-navbar').click();
         }
-        var parent = $(this).parent().parent();
-        parent.children('li.open').children('a').children('.arrow').removeClass('open');
-        parent.children('li.open').children('.sub-menu').slideUp(200);
-        parent.children('li.open').removeClass('open');
-        var sub = jQuery(this).next();
-        if (sub.is(":visible")) {
-            jQuery('.arrow', jQuery(this)).removeClass("open");
-            jQuery(this).parent().removeClass("open");
-            sub.slideUp(200);
-            $(this).parent().removeClass('active');
-        } else {
-        	$(this).parent().addClass('active');
-            jQuery('.arrow', jQuery(this)).addClass("open");
-            jQuery(this).parent().addClass("open");
-            sub.slideDown(200);
-        }
-        e.preventDefault();
-    });
+        return;
+    }
+    var parent = $(this).parent().parent();
+    parent.children('li.open').children('a').children('.arrow').removeClass('open');
+    parent.children('li.open').children('.sub-menu').slideUp(200);
+    parent.children('li.open').removeClass('open');
+    var sub = jQuery(this).next();
+    if (sub.is(":visible")) {
+        jQuery('.arrow', jQuery(this)).removeClass("open");
+        jQuery(this).parent().removeClass("open");
+        sub.slideUp(200);
+    } else {
+        jQuery('.arrow', jQuery(this)).addClass("open");
+        jQuery(this).parent().addClass("open");
+        sub.slideDown(200);
+    }
+    e.preventDefault();
 });
 class admin{
 	constructor(){
@@ -182,10 +182,25 @@ class admin{
 			shadeClose:true,
 		})
 	}
-	get_data(){
+	PageGetData(){
 		let ifm=$("#list");
 		this.mainIfmWin=(typeof(ifm[0].contentWindow)=='object'?ifm[0].contentWindow:ifm[0].window);
-		this.mainIfmWin.indexObj.init();
+		this.mainIfmWin.dataObj.get_data();
+	}
+	edit(url,title,height='fixed'){
+		if ( height !== 'fixed' ) {
+			height='auto';
+		}else{
+			height=$(window).height()*0.95+'px';
+		}
+		let width=$(window).width()*0.7+'px';
+		layer.open({
+			type:2,
+			title:title,
+			content:url,
+			area: [width,height],
+			shadeClose:true,
+		})		
 	}
 }
 var adminObj = new admin();

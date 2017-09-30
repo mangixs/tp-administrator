@@ -87,12 +87,20 @@
 	<script type="text/javascript">
 		$(function(){
 			$(".btn").click(sub);
-			$("input[name='password']").keyup(function(e){
+			$("input[name='captcha']").keyup(function(e){
 				if (e.which == 13) {
 					sub();
 				}
 			})
 		})
+		window.onload=function(){
+			document.onkeydown=function(e){
+				var ev = document.all ? window.event : e;
+				if(ev.keyCode==13) {
+				 	sub();
+		     	}
+			}
+		}
 		function sub(){
 			var username=$("input[name='username']").val().replace(/\s/g,'');
 			var preg=/^[\w|_]{4,10}$/;

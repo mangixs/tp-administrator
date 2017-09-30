@@ -223,7 +223,7 @@ class edit{
             success:function(res){
                 if ( res.result == 'SUCCESS' ) {
                     parent.$.suc(res.msg);
-                    window.location.reload();
+                    parent.adminObj.PageGetData()
                 }else{
                     parent.$.warn(res.msg);
                 }

@@ -4,6 +4,7 @@ use \think\Controller;
 use \think\View;
 use BaseAdmin;
 use FormCheck;
+use AdminModel;
 class Staff extends BaseAdmin{
 	private $rule=[
 		'staff_form'=>[
@@ -17,9 +18,24 @@ class Staff extends BaseAdmin{
     public function index(){
         return view();
     }
+    public function pageData(){
+    	$m = new AdminModel();
+    	$db=db('staff');
+    	$ret['page']=$m->setPage($db);
+    	$m->setSearch($db);
+    	$ret['data']=$db->field('id,login_name,staff_num,sex,true_name')->select();
+    	$res=$db->getLastSql();
+    	return json($ret);
+    }
     public function add(){
     	$this->assign('action','add');
     	return $this->fetch();
+    }
+    public function edit($id){
+    	$this->assign('action','edit');
+    	$data=db('staff')->field('id,login_name,staff_num,sex,true_name')->where('id',$id)->find();
+    	$this->assign('data',$data);
+    	return $this->fetch('add');
     }
     public function upload(){
 	    $file = request()->file('files');
