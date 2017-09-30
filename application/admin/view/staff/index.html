@@ -145,7 +145,7 @@ function dataBefore(v){
     <td><% if(sex ==1 ){ %>男<%}else{%>女<%}%></td>
     <td>
     	<a href="javascript:parent.adminObj.edit('/staff/edit/<%=id%>','编辑管理员');">编辑</a>
-    	<a href="">删除</a>
+    	<a href="javascript:parent.adminObj.deleteData('/staff/deleteStaff/<%=id%>');">删除</a>
     </td>
 </tr>	
 </script>
