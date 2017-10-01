@@ -31,9 +31,12 @@ class Staff extends BaseAdmin{
     	$this->assign('action','add');
     	return $this->fetch();
     }
-    public function edit($id){
-    	$this->assign('action','edit');
-    	$data=db('staff')->field('id,login_name,staff_num,sex,true_name')->where('id',$id)->find();
+    public function edit($id,$act){
+    	if (empty($id) and !is_numeric($id) ) {
+    		return json(['result'=>'ERROR','msg'=>'参数错误']);
+    	}
+    	$this->assign('action',$act);
+    	$data=db('staff')->field('id,login_name,staff_num,sex,true_name,header_img')->where('id',$id)->find();
     	$this->assign('data',$data);
     	return $this->fetch('add');
     }
@@ -74,5 +77,12 @@ class Staff extends BaseAdmin{
 				break;
 		}
 		return json(['result'=>'SUCCESS','msg'=>'操作成功','id'=>$id]);
+	}
+	public function deleteStaff($id){
+		if (empty($id) and !is_numeric($id)) {
+			return json(['result'=>'ERROR','msg'=>'参数错误']);
+		}
+		db('staff')->where('id',$id)->delete();
+		return json(['result'=>'SUCCESS','msg'=>'删除成功']);
 	}
 }

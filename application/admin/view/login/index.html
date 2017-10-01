@@ -101,7 +101,11 @@
 		     	}
 			}
 		}
+		var submiting=false;
 		function sub(){
+			if ( submiting ) {
+				return;
+			}
 			var username=$("input[name='username']").val().replace(/\s/g,'');
 			var preg=/^[\w|_]{4,10}$/;
 			if ( !preg.test(username) ) {
@@ -120,6 +124,7 @@
 				return;
 			}
 			var data=$(".login-form").serialize();
+			submiting=true;
 			$.ajax({
 				url:'/login/sub',
 				data:data,

@@ -190,6 +190,9 @@ class admin{
 			shadeClose:true,
 		})
 	}
+	closePage(){
+		layer.closeAll();
+	}
 	PageGetData(){
 		let ifm=$("#list");
 		this.mainIfmWin=(typeof(ifm[0].contentWindow)=='object'?ifm[0].contentWindow:ifm[0].window);
@@ -244,7 +247,7 @@ class admin{
 	           			}
 	           		}.bind(this)
 	           	})
-	        }.bind(this))
+	        }.bind(this)
 		})
 	}
 }
