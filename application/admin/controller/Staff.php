@@ -12,7 +12,7 @@ class Staff extends BaseAdmin{
             'staff_num'=>['name'=>'staff_num','preg'=>':number','notice'=>'请输入正确的用户编号!'],
             'true_name'=>['name'=>'true_name','preg'=>':ch','notice'=>'请输入正确的用户名!','not_null'=>false],
             'sex'=>['name'=>'sex','preg'=>'/^[1|2]{1}$/','notice'=>'请选择用户性别','not_null'=>false],
-            'header_img'=>['name'=>'header_img','preg'=>':notnull','请上传用户头像','not_null'=>false],				
+            'header_img'=>['name'=>'header_img','preg'=>':notnull','notice'=>'请上传用户头像','not_null'=>false],				
 		],
 	];
     public function index(){
@@ -24,7 +24,6 @@ class Staff extends BaseAdmin{
     	$ret['page']=$m->setPage($db);
     	$m->setSearch($db);
     	$ret['data']=$db->field('id,login_name,staff_num,sex,true_name')->select();
-    	$res=$db->getLastSql();
     	return json($ret);
     }
     public function add(){
@@ -84,5 +83,39 @@ class Staff extends BaseAdmin{
 		}
 		db('staff')->where('id',$id)->delete();
 		return json(['result'=>'SUCCESS','msg'=>'删除成功']);
+	}
+	public function setjob($id){
+		if (empty($id) and !is_numeric($id)) {
+			return json(['result'=>'ERROR','msg'=>'参数错误']);
+		}
+		$job=db('admin_job')->field('id,job_name')->where('vaild',1)->select();
+		$res=$this->hasJob($id);
+		$this->assign('data',$job);
+		$this->assign('has',$res);
+		$this->assign('staff_id',$id);
+		return view();
+	}
+	private function hasJob($id){
+		$ret=db('staff_job')->field('job_id')->where('staff_id',$id)->select();
+		$res=[];
+		foreach ($ret as $v) {
+			$res[]=$v['job_id'];
+		}		
+		return $res;
+	}
+	public function jobSave(){
+		$staff_id=input('post.staff_id');
+		$job_id=input('post.job_id');
+		$set=input('post.set')==='true'?true:false;
+		if ( empty($staff_id) and empty( $job_id ) and !is_numeric($staff_id) and !is_numeric($job_id) and !is_bool($set) ) {
+			return json(['result'=>'ERROR','msg'=>'参数错误']);
+		}
+		db('staff_job')->where('staff_id',$staff_id)->where('job_id',$job_id)->delete();
+		if ( $set ) {
+			db('staff_job')->insert(['staff_id'=>$staff_id,'job_id'=>$job_id]);
+		}		
+		$res=$this->hasJob($staff_id);
+		db('staff')->where('id',$staff_id)->update(['job'=>json_encode($res)]);
+		return json(['result'=>'SUCCESS','msg'=>'设置成功']);
 	}
 }

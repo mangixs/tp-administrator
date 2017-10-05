@@ -1,0 +1,36 @@
+{include file="public/edit"}
+<div class="detail">
+    <form id="edit_form" data-action='/func/save' >
+        <input type="hidden" value="{$action}" name="action">
+        <input type="hidden" value="" name="id">
+    	<div class="detail-row">
+    		<div class="row-label">
+    			<span class="must">功能键值:</span>
+    		</div>
+    		<div class="row-input">
+    			<input type="text" name="key" placeholder="请输入功能键值" maxlength="12" data-allow="en" >
+    		</div>
+    	</div>
+        <div class="detail-row">
+            <div class="row-label">
+                <span>功能名称:</span>
+            </div>
+            <div class="row-input">
+                <input type="text" name="func_name" max="12" placeholder="请输入功能名称">
+            </div>
+        </div>
+    </form>
+</div>
+<div class="btn_box">
+	<button type="button" class="btn" data-btn="submit">保存</button>
+</div>
+<script type="text/javascript">
+const editObj = new edit();
+{if condition="$action neq 'add' "}
+    editObj.setForm($("#edit_form"),<?=json_encode($data)?>);
+{/if}
+editObj.saveurl='/func/edit/{id}/edit';
+editObj.setFormStatus('{$action}');
+</script>
+</body>
+</html>

@@ -8,4 +8,37 @@ class BaseAdmin extends Controller{
 			$this->redirect('admin/login/index');
 		}
 	}
+	protected function hasAuth($id){
+		$res=db('admin_job_auth')->where('admin_job_id',$id)->select();
+		$ret=[];
+		foreach ($res as $v) {
+			$ret[ $v['func_key'] ][]=$v['auth_key'];
+		}
+		return $ret;
+	}
+	protected function funcAuth(){
+        $func=$this->func_all();
+        $auth=$this->auth_all();
+        $tmp=[];
+        foreach( $auth as $v ){
+            $tmp[ $v['func_key'] ][]=$v;
+        }
+        $ret=[];
+        foreach( $func as $k=>$v ){
+            $ret[ $v['key'] ]=$v;
+            if( array_key_exists( $v['key'],$tmp ) ){
+                $ret[ $v['key'] ]['auth']=$tmp[ $v['key'] ];
+            }
+            else{
+                $ret[ $v['key'] ]['auth']=[];
+            }
+        }
+        return $ret;
+    }
+    private function func_all(){
+        return db('background_func')->select();
+    }
+    private function auth_all(){
+        return db('func_auth')->select();
+    }
 }

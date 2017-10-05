@@ -8,16 +8,12 @@ class AdminModel{
 
 	}
 	public function setSearch(&$db){
-		$str=input('get.search');
-		//p($str);
+		//$str=input('get.search');
+		$str=@$_GET['search'];
 		if( empty($str) ){
 			return;
 		}
-		//p(json_decode($str,true));
-		$s='{"like:dev_name,dev_sn":"V0159453396"}';
-		// p($s);
-		// $json=json_decode($s,true);
-		// p($json);die;
+		$json=json_decode($str,true);
 		if( !is_array($json) ){
 			return;
 		}
@@ -30,12 +26,11 @@ class AdminModel{
 			switch( $set[0] ){
 				case 'like':
 				if( count($arr)==1 ){
-					//p($arr);die;
-					$db->where( $arr[0],'like',$v );
+					$db->whereLike( $arr[0],$v );
 				}
 				else{					
 					foreach( $arr as $row ){
-						$db->whereOr( $row,'like',$v );
+						$db->whereLike( $row,$v,'XOR' );
 					}
 				}	
 				break;

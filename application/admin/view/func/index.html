@@ -1,0 +1,67 @@
+{include file="public/list" /}
+<div class="head container-fluid">
+	<div class="row">
+		<span class="title">功能管理</span>
+		<button type="button"  class="btn btn-success btn-right" onclick="parent.adminObj.add('/func/add','添加功能')" >添加</button>
+	</div>	
+</div>
+<div class="content container-fluid">
+	<div class="search-box">
+		<div class="row">
+			<form class="form-inline" id="search_form">
+			  	<div class="form-group">
+			    	<label for="exampleInputName2">请输入功能键值</label>
+			    	<input type="text" class="form-control" id="exampleInputName2" placeholder="请输入职位" name="like:key,func_name">
+			 	</div>
+			</form>
+		</div>
+	</div>
+	<div class="data-show">
+		<table class="table table-bordered">
+		   <thead>
+		      	<tr class="active">
+		         	<th>功能键值</th>
+		         	<th>功能名称</th>
+		        	<th>操作</th>
+		      	</tr>
+		   </thead>
+		   <tbody id="data_box">
+		      	
+		   </tbody>
+		</table>
+	</div>
+	<div class="page_box container-fluid"></div>	
+</div>
+<script type="text/html" id="data_tpl">
+<tr>
+    <td><%= key %></td>
+    <td><%= func_name %></td>
+    <td>
+    	<a href="javascript:parent.adminObj.edit('/func/edit/<%=key%>/browse','查看功能');" class="list-btn browse"></a>
+    	<a href="javascript:parent.adminObj.edit('/func/edit/<%=key%>/edit','编辑功能');" class="list-btn edit" ></a>
+    	<a href="javascript:parent.adminObj.deleteData('/func/deleteFunc/<%=key%>');" class="list-btn del" ></a>
+    	<a href="javascript:parent.adminObj.edit('/func/editKey/<%=key%>','设置权限')" class="list-text" >编辑权限</a>
+    </td>
+</tr>	
+</script>
+<script type="text/javascript">
+var dataObj=null;
+var pageObj=null; 
+$(function(){	
+	dataObj=new adminGetData({
+	    box:$('#data_box'),
+	    url:'/func/pageData',
+	    tpl:'data_tpl',
+	});	
+	pageObj=new managerPage($('.page_box'));
+	dataObj.dataBeforeHandle=dataBefore;
+	dataObj.setPage(pageObj);
+	dataObj.setSearch($('#search_form'),true);
+    dataObj.get_data();
+})
+function dataBefore(v){
+    return v;
+}
+</script>
+</body>
+</html>

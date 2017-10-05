@@ -1,0 +1,65 @@
+{include file="public/list" /}
+<div class="head container-fluid">
+	<div class="row">
+		<span class="title">职位管理</span>
+		<button type="button"  class="btn btn-success btn-right" onclick="parent.adminObj.add('/job/add','添加职位')" >添加</button>
+	</div>	
+</div>
+<div class="content container-fluid">
+	<div class="search-box">
+		<div class="row">
+			<form class="form-inline" id="search_form">
+			  	<div class="form-group">
+			    	<label for="exampleInputName2">请输入职位</label>
+			    	<input type="text" class="form-control" id="exampleInputName2" placeholder="请输入职位" name="like:job_name">
+			 	</div>
+			</form>
+		</div>
+	</div>
+	<div class="data-show">
+		<table class="table table-bordered">
+		   <thead>
+		      	<tr class="active">
+		         	<th>名称</th>
+		        	<th>操作</th>
+		      	</tr>
+		   </thead>
+		   <tbody id="data_box">
+		      	
+		   </tbody>
+		</table>
+	</div>
+	<div class="page_box container-fluid"></div>	
+</div>
+<script type="text/html" id="data_tpl">
+<tr>
+    <td><%= job_name %></td>
+    <td>
+    	<a href="javascript:parent.adminObj.edit('/job/edit/<%=id%>/browse','查看');" class="list-btn browse"></a>
+    	<a href="javascript:parent.adminObj.edit('/job/edit/<%=id%>/edit','编辑职位');" class="list-btn edit" ></a>
+    	<a href="javascript:parent.adminObj.deleteData('/job/deleteJob/<%=id%>');" class="list-btn del" ></a>
+    	<a href="javascript:parent.adminObj.edit('/job/set/<%=id%>','设置权限');" class="list-text" >设置权限</a>
+    </td>
+</tr>	
+</script>
+<script type="text/javascript">
+var dataObj=null;
+var pageObj=null; 
+$(function(){	
+	dataObj=new adminGetData({
+	    box:$('#data_box'),
+	    url:'/job/pageData',
+	    tpl:'data_tpl',
+	});	
+	pageObj=new managerPage($('.page_box'));
+	dataObj.dataBeforeHandle=dataBefore;
+	dataObj.setPage(pageObj);
+	dataObj.setSearch($('#search_form'),true);
+    dataObj.get_data();
+})
+function dataBefore(v){
+    return v;
+}
+</script>
+</body>
+</html>
