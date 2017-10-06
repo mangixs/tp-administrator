@@ -14,6 +14,8 @@ class Func extends BaseAdmin{
 		],
 	];
     public function index(){
+    	$sessionkey=session('staff_session_object');
+    	$this->assign('key',$sessionkey['key']['func']);
         return view();
     }
     public function pageData(){

@@ -16,6 +16,8 @@ class Staff extends BaseAdmin{
 		],
 	];
     public function index(){
+    	$sessionkey=session('staff_session_object');
+        $this->assign('key',$sessionkey['key']['staff']);
         return view();
     }
     public function pageData(){

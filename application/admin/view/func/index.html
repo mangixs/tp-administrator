@@ -2,7 +2,9 @@
 <div class="head container-fluid">
 	<div class="row">
 		<span class="title">功能管理</span>
+		{if condition=" in_array('add',$key['auth_key']) "}
 		<button type="button"  class="btn btn-success btn-right" onclick="parent.adminObj.add('/func/add','添加功能')" >添加</button>
+		{/if}
 	</div>	
 </div>
 <div class="content container-fluid">
@@ -38,9 +40,15 @@
     <td><%= func_name %></td>
     <td>
     	<a href="javascript:parent.adminObj.edit('/func/edit/<%=key%>/browse','查看功能');" class="list-btn browse"></a>
+    	{if condition=" in_array('edit',$key['auth_key']) "}
     	<a href="javascript:parent.adminObj.edit('/func/edit/<%=key%>/edit','编辑功能');" class="list-btn edit" ></a>
+    	{/if}
+    	{if condition=" in_array('delete',$key['auth_key']) "}
     	<a href="javascript:parent.adminObj.deleteData('/func/deleteFunc/<%=key%>');" class="list-btn del" ></a>
+    	{/if}
+    	{if condition=" in_array('edit',$key['auth_key']) "}
     	<a href="javascript:parent.adminObj.edit('/func/editKey/<%=key%>','设置权限')" class="list-text" >编辑权限</a>
+    	{/if}
     </td>
 </tr>	
 </script>

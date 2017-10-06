@@ -18,6 +18,8 @@ class Menu extends BaseAdmin{
 		],
 	];
     public function index(){
+    	$sessionkey=session('staff_session_object');
+        $this->assign('key',$sessionkey['key']['menu']);
         return view();
     }
     public function pageData(){

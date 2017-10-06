@@ -2,7 +2,9 @@
 <div class="head container-fluid">
 	<div class="row">
 		<span class="title">管理员管理</span>
+		{if condition=" in_array('add',$key['auth_key']) "}
 		<button type="button"  class="btn btn-success btn-right" onclick="parent.adminObj.add('/staff/add','添加管理员')" >添加</button>
+		{/if}
 	</div>	
 </div>
 <div class="content container-fluid">
@@ -42,9 +44,15 @@
     <td><% if(sex ==1 ){ %>男<%}else{%>女<%}%></td>
     <td>
     	<a href="javascript:parent.adminObj.edit('/staff/edit/<%=id%>/browse','查看');" class="list-btn browse"></a>
+    	{if condition=" in_array('edit',$key['auth_key']) "}
     	<a href="javascript:parent.adminObj.edit('/staff/edit/<%=id%>/edit','编辑管理员');" class="list-btn edit" ></a>
+    	{/if}
+    	{if condition=" in_array('delete',$key['auth_key']) "}
     	<a href="javascript:parent.adminObj.deleteData('/staff/deleteStaff/<%=id%>');" class="list-btn del" ></a>
+    	{/if}
+    	{if condition=" in_array('edit',$key['auth_key']) "}
     	<a href="javascript:parent.adminObj.edit('/staff/setJob/<%=id%>','设置职位');" class="list-text" >职位</a>
+    	{/if}
     </td>
 </tr>	
 </script>

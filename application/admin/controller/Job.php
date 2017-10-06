@@ -13,6 +13,8 @@ class Job extends BaseAdmin{
 		],
 	];
     public function index(){
+        $sessionkey=session('staff_session_object');
+        $this->assign('key',$sessionkey['key']['job']);
         return view();
     }
     public function pageData(){
