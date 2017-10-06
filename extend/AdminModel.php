@@ -26,11 +26,11 @@ class AdminModel{
 			switch( $set[0] ){
 				case 'like':
 				if( count($arr)==1 ){
-					$db->whereLike( $arr[0],$v );
+					$db->where( $arr[0],'like',$v );
 				}
 				else{					
 					foreach( $arr as $row ){
-						$db->whereLike( $row,$v,'XOR' );
+						$db->whereOr( $row,'like',$v );
 					}
 				}	
 				break;
