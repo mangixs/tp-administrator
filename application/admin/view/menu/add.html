@@ -18,6 +18,17 @@
         	<div class="row-input">
         		<select name="parent">
         			<option value="0">无父级菜单</option>
+        			<?php foreach( $all as $v ): ?>
+						<option value="<?= $v['id'] ?>">
+							<?php if( $v['level']>0 ): ?>
+							|
+							<?php for($i=0;$i<$v['level'];$i++): ?>
+							--
+							<?php endfor; ?>
+							<?php endif; ?>
+							<?=$v['named']?>
+						</option>
+					<?php endforeach; ?>
         		</select>
         	</div>
         </div>
@@ -34,7 +45,7 @@
                 <span class="must">链接:</span>
             </div>
             <div class="row-input">
-               	<input type="text" name="url" placeholder="请输入菜单链接" maxlength="24" data-allow="url">
+               	<input type="text" name="url" placeholder="请输入菜单链接" maxlength="24">
             </div>
         </div>
         <div class="detail-row">
@@ -49,7 +60,7 @@
         <div class="detail-row">
         	<div class="row-label">排序:</div>
         	<div class="row-input">
-        		<input type="text" name="sort" placeholder="请输入菜单排序" maxlength="4" data-allow="number" >
+        		<input type="text" name="sort" placeholder="请输入菜单排序" maxlength="4" data-allow="number" value="100" >
         	</div>
         </div>
         <div class="detail-row">
@@ -157,6 +168,17 @@ $(function(){
 	    $("input[name='screen_auth']").val(val);
  		$('.key_bg,.key_box').hide();
     })
+    {if condition="$action eq 'add'"}
+    	$("select[name='parent']").val({$pid}).trigger('change');
+    {/if}
+    {if condition="$action neq 'add' "}
+    	var data={$data['screen_auth']};
+    	$.each( data ,function(k,v){
+	        $.each(v,function(s,d){
+	            $("input[name='"+k+":"+d+"']").attr('checked',true);
+	        })
+	    })
+    {/if}
 })
 const editObj = new edit();
 {if condition="$action neq 'add' "}

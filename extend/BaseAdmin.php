@@ -41,4 +41,22 @@ class BaseAdmin extends Controller{
     private function auth_all(){
         return db('func_auth')->select();
     }
+    protected function allMenu(){
+        $res=db('menu')->field('id,named,level,parent')->select();
+        $data=[];
+        foreach ($res as $k => $v) {
+            $data[ $v['parent'] ][ $v['id'] ]=$v;
+        }
+        $tree=[];
+        $this->treeMenu($data,0,$tree);
+        return $tree;
+    }
+    private function treeMenu(&$data,$pid,&$tree){
+        if( isset( $data[ $pid ] ) ){
+            foreach( $data[ $pid ]  as $k=>$v){
+                $tree[ $k ]=$v;
+                $this->treeMenu($data,$k,$tree);
+            }
+        }
+    }
 }

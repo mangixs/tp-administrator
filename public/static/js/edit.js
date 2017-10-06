@@ -18,7 +18,7 @@ class edit{
             error:function(){
                 parent.$.warn('服务器忙,请重试');
                 this.submiting=false;
-            },
+            }.bind(this),
             success:function(res){
                 if ( res.result == 'SUCCESS' ) {
                     parent.$.suc(res.msg);

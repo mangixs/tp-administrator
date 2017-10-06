@@ -75,4 +75,27 @@ class Job extends BaseAdmin{
 		$this->assign('admin_job_id',$id);
 		return view();
 	}
+	public function setauth(){
+    	$data['admin_job_id']=input('post.admin_job_id');
+        $data['auth_key']=input('post.auth_key');
+        $data['func_key']=input('post.func_key');
+        $ret=$this->auth($data);
+        if ( $ret ) {
+        	return json(['result'=>'SUCCESS','msg'=>'删除成功']);
+        }else{
+        	return json(['result'=>'SUCCESS','msg'=>'添加成功']);
+        }
+    }
+    private function auth($data){
+    	$db=db('admin_job_auth');
+        $cou=$db->where('admin_job_id',$data['admin_job_id'])->where('auth_key',$data['auth_key'])->where('func_key',$data['func_key'])->count();
+        if( $cou>0 ){
+            $db->where('admin_job_id',$data['admin_job_id'])->where('auth_key',$data['auth_key'])->where('func_key',$data['func_key'])->delete();
+            return true;
+        }
+        else{
+            $db->insert($data);
+            return false;
+        }
+    }
 }

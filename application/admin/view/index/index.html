@@ -64,31 +64,7 @@
 </div>
 <div class="page-container">
 	<div class="page-sidebar nav-collapse collapse">
-		<ul class="page-sidebar-menu">
-			<li class="">
-				<a href="javascript:;" class="level">
-					<i class="icon-home"></i> 
-					<span class="title">前段管理</span>
-					<span class="arrow "></span>						
-				</a>
-				<ul class="sub-menu">
-					<li><a href="javascript:;" target="list" >文章管理</a></li>
-				</ul>
-			</li>
-			<li class="">
-				<a href="javascript:;" class="level">
-					<i class="icon-cogs"></i> 
-					<span class="title">后台管理</span>
-					<span class="arrow "></span>
-				</a>
-				<ul class="sub-menu">
-					<li ><a href="/staff" target="list" >管理员管理</a></li>
-					<li><a href="/job" target="list">职位管理</a></li>
-					<li><a href="/func" target="list">功能管理</a></li>
-					<li><a href="/menu" target="list">菜单管理</a></li>
-				</ul>
-			</li>
-		</ul>
+		{$menu}
 	</div>
 	<div class="page-content" id="detail-content">
 		<iframe src="/index/welcome" frameborder="0" name="list" id="list"></iframe>

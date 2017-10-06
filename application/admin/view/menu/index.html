@@ -9,6 +9,8 @@
 	<link rel="stylesheet" type="text/css" href="__STATIC__/css/list.css">
 	<script type="text/javascript" src="__STATIC__/js/jquery-3.0.0.min.js"></script> 
 	<script type="text/javascript" src="__STATIC__/js/template.min.js"></script>
+	<script type="text/javascript" src="__STATIC__/js/adminGetData.js"></script>
+	<script type="text/javascript" src="__STATIC__/js/managerPage.js"></script>
 	<style type="text/css">
 		.table-title{
 			height:40px;
@@ -50,6 +52,9 @@
 			border-bottom:1px solid #ddd;
 			border-right:1px solid #ddd;
 		}
+		.child{
+			cursor:pointer;
+		}
 	</style> 
 </head>
 <body>
@@ -78,27 +83,89 @@
 		<div class="table-th">操作</div>
 	</div>
 	<div class="table-box">
-		<div class="table-tr">
-			<div class="table-td">管理员</div>
-			<div class="table-td">/staff</div>
-			<div class="table-td">0</div>
-			<div class="table-td">100</div>
-			<div class="table-td">
-				<a href="javascript:parent.adminObj.edit('/staff/edit/<%=id%>/browse','查看');" class="list-btn browse"></a>
-		    	<a href="javascript:parent.adminObj.edit('/staff/edit/<%=id%>/edit','编辑管理员');" class="list-btn edit" ></a>
-		    	<a href="javascript:parent.adminObj.deleteData('/staff/deleteStaff/<%=id%>');" class="list-btn del" ></a>
-		    	<a href="javascript:parent.adminObj.edit('/staff/setJob/<%=id%>','设置职位');" class="list-text" >添加子菜单</a>
-			</div>
-		</div>
+		
 	</div>
 </div>
+<div class="page_box container-fluid"></div>
+<script type="text/html" id='menu_tpl'>
+<div class="table-tr" data-class="<%=id%>" >
+	<div class="table-td child" title="显示子菜单" onclick="showChild(<%= id %>)" ><%= named %></div>
+	<div class="table-td"><%= url %></div>
+	<div class="table-td"><%= level %></div>
+	<div class="table-td"><%= sort %></div>
+	<div class="table-td">
+		<a href="javascript:parent.adminObj.edit('/menu/edit/<%=id%>/browse','查看菜单');" class="list-btn browse"></a>
+    	<a href="javascript:parent.adminObj.edit('/menu/edit/<%=id%>/edit','编辑菜单');" class="list-btn edit" ></a>
+    	<a href="javascript:parent.adminObj.deleteData('/menu/deleteMenu/<%=id%>');" class="list-btn del" ></a>
+    	<a href="javascript:parent.adminObj.edit('/menu/add?pid=<%=id%>','添加子菜单');" class="list-text" >子菜单</a>
+	</div>
+</div>	
+</script>
 <script type="text/javascript">
-class classify{
-	constructor(){
-
+var dataObj=null;
+var pageObj=null; 
+$(function(){	
+	dataObj=new adminGetData({
+	    box:$('.table-box'),
+	    url:'/menu/pageData',
+	    tpl:'menu_tpl',
+	});	
+	pageObj=new managerPage($('.page_box'));
+	dataObj.dataBeforeHandle=dataBefore;
+	dataObj.setPage(pageObj);
+	dataObj.setSearch($('#search_form'),true);
+    dataObj.get_data();
+})
+function dataBefore(v){
+    return v;
+}
+function showChild(pid){
+	var box=$("[data-class='"+pid+"'");
+	if( box.is('.empty_child') ){
+		return;
+	}
+	if( box.next().is('.child_box') ){
+		box.next().slideToggle();
+		return;
+	}
+	var config={
+		url:'/menu/childMenu',
+		data:'pid='+pid,
+		type:'post',
+		success:showChildCallback,
+		error:function(){
+			parent.$.err('获取出现错误!');
+		},
+	}
+	$.ajax(config);
+}
+function showChildCallback(res){
+	switch(res.result){
+		case 'EMPTY':
+		$("[data-class='"+res.pid+"'").addClass('empty_child');
+		break;
+		case 'SUCCESS':
+		var box=$('<div class="child_box"></div>');
+		$.each(res.data,function(k,v){
+			v.nameScreen='';
+			if( v.level>0 ){
+				v.nameScreen+='|';
+				for( i=0;i<v.level;i++ ){
+					v.nameScreen+='--';
+				}
+			}
+			v.named = v.nameScreen+v.named;
+			box.append( template.render('menu_tpl',v) );
+		});
+		box.css('display','none');
+		$("[data-class='"+res.pid+"'").after( box );
+		box.slideToggle();
+		break;
+		default:
+		$.err( res.msg );
+		break;
 	}
 }
-const classifyObj = new classify();
 </script>
 </body>
 </html>
