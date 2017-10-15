@@ -14,7 +14,7 @@ class Menu extends BaseAdmin{
             'screen_auth'=>['name'=>'screen_auth','preg'=>':notnull','notice'=>'请设置权限'],
             'sort'=>['name'=>'sort','preg'=>':number','notice'=>'请输入排序','not_null'=>false],
             'parent'=>['name'=>'parent','preg'=>':number','notice'=>'请输入选择菜单父级'],				
-            'icon'=>['name'=>'icon','preg'=>':notnull','notice'=>'请上传图标','notnull'=>false],
+            'icon'=>['name'=>'icon','preg'=>':notnull','notice'=>'请上传图标','not_null'=>false],
 		],
 	];
     public function index(){

@@ -8,7 +8,6 @@ class AdminModel{
 
 	}
 	public function setSearch(&$db){
-		//$str=input('get.search');
 		$str=@$_GET['search'];
 		if( empty($str) ){
 			return;
