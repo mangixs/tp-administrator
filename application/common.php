@@ -12,11 +12,13 @@
 // 应用公共文件
 function p($arr){
     if ( is_bool($arr) ) {
-        return var_export($arr);
+        var_export($arr);
+        exit;
     }else{
     	echo '<pre>';
     	print_r($arr);
     	echo '</pre>';
+        exit;
     }
 }
 function encrypts($str,$key){ 
