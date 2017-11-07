@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : localhost
-Source Server Version : 50719
+Source Server Version : 50718
 Source Host           : localhost:3306
 Source Database       : tp
 
 Target Server Type    : MYSQL
-Target Server Version : 50719
+Target Server Version : 50718
 File Encoding         : 65001
 
-Date: 2017-10-06 15:51:59
+Date: 2017-11-07 17:59:46
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -65,6 +65,10 @@ INSERT INTO `admin_job_auth` VALUES ('5', 'menu', 'add');
 INSERT INTO `admin_job_auth` VALUES ('5', 'menu', 'delete');
 INSERT INTO `admin_job_auth` VALUES ('5', 'menu', 'edit');
 INSERT INTO `admin_job_auth` VALUES ('5', 'menu', 'export');
+INSERT INTO `admin_job_auth` VALUES ('5', 'slide', 'add');
+INSERT INTO `admin_job_auth` VALUES ('5', 'slide', 'delete');
+INSERT INTO `admin_job_auth` VALUES ('5', 'slide', 'edit');
+INSERT INTO `admin_job_auth` VALUES ('5', 'slide', 'export');
 INSERT INTO `admin_job_auth` VALUES ('5', 'staff', 'add');
 INSERT INTO `admin_job_auth` VALUES ('5', 'staff', 'delete');
 INSERT INTO `admin_job_auth` VALUES ('5', 'staff', 'edit');
@@ -80,6 +84,31 @@ INSERT INTO `admin_job_auth` VALUES ('7', 'staff', 'add');
 INSERT INTO `admin_job_auth` VALUES ('7', 'staff', 'delete');
 INSERT INTO `admin_job_auth` VALUES ('7', 'staff', 'edit');
 INSERT INTO `admin_job_auth` VALUES ('7', 'staff', 'export');
+
+-- ----------------------------
+-- Table structure for article
+-- ----------------------------
+DROP TABLE IF EXISTS `article`;
+CREATE TABLE `article` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `first_img` text,
+  `title` varchar(30) NOT NULL,
+  `type` int(6) NOT NULL DEFAULT '0',
+  `summary` varchar(450) DEFAULT NULL,
+  `content` text,
+  `insert_at` int(24) DEFAULT NULL,
+  `update_at` int(24) DEFAULT NULL,
+  `is_show` int(1) DEFAULT '1',
+  `valid` int(1) NOT NULL DEFAULT '1',
+  `show_place` int(1) DEFAULT NULL,
+  `sort` int(3) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of article
+-- ----------------------------
+INSERT INTO `article` VALUES ('2', '/upload/2017-10-26/1509009845121995.jpg', '测试', '1', '简介', '<p>卡技术的话<br/></p>', '1509009855', '1509010553', '1', '1', '1', '100');
 
 -- ----------------------------
 -- Table structure for background_func
@@ -100,6 +129,7 @@ INSERT INTO `background_func` VALUES ('front', '前端管理');
 INSERT INTO `background_func` VALUES ('func', '功能管理');
 INSERT INTO `background_func` VALUES ('job', '职位管理');
 INSERT INTO `background_func` VALUES ('menu', '菜单管理');
+INSERT INTO `background_func` VALUES ('slide', '轮播图');
 INSERT INTO `background_func` VALUES ('staff', '管理员管理');
 
 -- ----------------------------
@@ -128,6 +158,9 @@ INSERT INTO `func_auth` VALUES ('job', 'edit', '编辑');
 INSERT INTO `func_auth` VALUES ('menu', 'add', '添加');
 INSERT INTO `func_auth` VALUES ('menu', 'delete', '删除');
 INSERT INTO `func_auth` VALUES ('menu', 'edit', '编辑');
+INSERT INTO `func_auth` VALUES ('slide', 'add', '添加');
+INSERT INTO `func_auth` VALUES ('slide', 'delete', '删除');
+INSERT INTO `func_auth` VALUES ('slide', 'edit', '编辑');
 INSERT INTO `func_auth` VALUES ('staff', 'add', '添加');
 INSERT INTO `func_auth` VALUES ('staff', 'delete', '删除');
 INSERT INTO `func_auth` VALUES ('staff', 'edit', '编辑');
@@ -146,7 +179,7 @@ CREATE TABLE `menu` (
   `parent` int(11) DEFAULT '0',
   `screen_auth` varchar(120) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menu
@@ -158,6 +191,30 @@ INSERT INTO `menu` VALUES ('5', '文章管理', '/upload/icon/20171006\\menu_hom
 INSERT INTO `menu` VALUES ('6', '职位管理', '/upload/icon/20171006\\menu_home.png', '/job', '100', '1', '1', '{\"job\":[\"export\"]}');
 INSERT INTO `menu` VALUES ('7', '功能管理', '/upload/icon/20171006\\menu_home.png', '/func', '100', '1', '1', '{\"func\":[\"export\"]}');
 INSERT INTO `menu` VALUES ('8', '菜单管理', '/upload/icon/20171006\\menu_home.png', '/menu', '100', '1', '1', '{\"menu\":[\"export\"]}');
+INSERT INTO `menu` VALUES ('9', '轮播图', '/upload/icon/20171026\\3020b86f276cb1e2670db5205e36daec.jpg', '/slide', '100', '1', '3', '{\"slide\":[\"export\"]}');
+
+-- ----------------------------
+-- Table structure for slide
+-- ----------------------------
+DROP TABLE IF EXISTS `slide`;
+CREATE TABLE `slide` (
+  `id` int(6) NOT NULL AUTO_INCREMENT,
+  `title` varchar(32) DEFAULT NULL,
+  `img` varchar(180) NOT NULL,
+  `url` varchar(120) DEFAULT NULL,
+  `sort` int(3) NOT NULL DEFAULT '50',
+  `update_at` int(24) NOT NULL,
+  `insert_at` int(24) DEFAULT NULL,
+  `type` int(3) NOT NULL DEFAULT '0',
+  `is_show` int(1) DEFAULT NULL,
+  `valid` int(1) DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of slide
+-- ----------------------------
+INSERT INTO `slide` VALUES ('1', 'douban', '/upload/2017-10-26/1509011855341672.jpg', 'http://www.douban.com', '100', '1509011904', '1509011904', '1', '1', '1');
 
 -- ----------------------------
 -- Table structure for staff
